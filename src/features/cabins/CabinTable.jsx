@@ -1,35 +1,38 @@
-// import styled from 'styled-components';
-import CabinRow from 'features/cabins/CabinRow';
-import Spinner from 'ui/Spinner';
-import Table from 'ui/Table';
-import Menus from 'ui/Menus';
-import Empty from 'ui/Empty';
-import { useCabins } from 'features/cabins/useCabins';
-import { useSearchParams } from 'react-router-dom';
-import { Suspense } from 'react';
+import {useQuery} from '@tanstack/react-query';
+import styled from 'styled-components';
+import {getCabins} from '../../services/apiCabins';
+import CabinRow from './CabinRow';
+import Spinner from '../../ui/Spinner';
+// import Table from 'ui/Table';
+// import Menus from 'ui/Menus';
+// import Empty from 'ui/Empty';
+// import { useCabins } from 'features/cabins/useCabins';
+// import { useSearchParams } from 'react-router-dom';
+// import { Suspense } from 'react';
 
-// v2
-// Right now this is not really reusable... But we will want to use a similar table for guests as well, but with different columns. ALSO, right now we are defining these columns in BOTH the TableHeader and the CabinRow, which is not good at all. Instead, it would be much better to simply pass the columns into the Table, and the table would give access to the columns to both the header and row. So how can we do that? Well we can again use a compound component! We don't HAVE to do it like this, there's a million ways to implement a table, also without CSS Grid, but this is what I chose
+const Table = styled.div`
+  border: 1px solid var(--color-grey-200);
 
-// v1
-// const TableHeader = styled.header`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
+  font-size: 1.4rem;
+  background-color: var(--color-grey-0);
+  border-radius: 7px;
+  overflow: hidden;
+`;
 
-//   background-color: var(--color-grey-50);
-//   border-bottom: 1px solid var(--color-grey-100);
-//   text-transform: uppercase;
-//   letter-spacing: 0.4px;
-//   font-weight: 600;
-//   color: var(--color-grey-600);
-//   padding: 1.6rem 2.4rem;
-// `;
+const TableHeader = styled.header`
+  display: grid;
+  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+  column-gap: 2.4rem;
+  align-items: center;
 
-// We want each table row to have a menu, and we only want one of them to be open at the same time. We also want this functionality to be reusable. We could add a openID state here to the table, but that wouldn't really be reusable... The best way is to use a compound component
-
-// The hotel won't ever have a lot of cabins, so there is no need to paginate. So we will do no pagination, AND we will do filtering and sorting. So here we learn how to do it on the FRONT-END (later in the booking we will do the BACK-END version, which is more real world)
+  background-color: var(--color-grey-50);
+  border-bottom: 1px solid var(--color-grey-100);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: var(--color-grey-600);
+  padding: 1.6rem 2.4rem;
+`;
 
 function CabinTable() {
   // We enabled Suspense on this query with React Query. This will make it so that this component is SUSPENDED while the data is still loading. We then have to add a <Suspense> boundary somewhere OUTSIDE this component to instruct React to SUSPEND, so to PAUSE, the rendering of this component until the data has been loaded.
@@ -40,59 +43,78 @@ function CabinTable() {
 
   // Now, everything that's inside a Suspense will be treated as just one unit, so when just one component of the child components is currently suspended, all of them will be replaced with the fallback. We can nest multiple Suspense boundaries, and the closest one will be shown. This way, when we have a big Suspense on the top on the tree, it won't have to WAIT
 
-  const { cabins } = useCabins();
-  const [searchParams] = useSearchParams();
+  const {
+    isLoading,
+    data: cabins,
+    error,
+  } = useQuery({
+    queryKey: ['cabin'],
+    queryFn: getCabins,
+  });
 
-  // if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner />;
+
+  // const { cabins } = useCabins();
+  // const [searchParams] = useSearchParams();
+
   // if (!cabins) return <Empty resource={'cabins'} />;
 
   // 1) Filter
-  const filterValue = searchParams.get('discount') || 'all';
+  // const filterValue = searchParams.get('discount') || 'all';
 
   // This is probably not the most efficient way, but that doesn't matter
-  let filteredCabins;
-  if (filterValue === 'all') filteredCabins = cabins;
-  if (filterValue === 'no-discount')
-    filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
-  if (filterValue === 'with-discount')
-    filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
+  // let filteredCabins;
+  // if (filterValue === 'all') filteredCabins = cabins;
+  // if (filterValue === 'no-discount')
+  //   filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+  // if (filterValue === 'with-discount')
+  //   filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
   // 2) SortBy
-  const sortBy = searchParams.get('sortBy') || 'startDate-asc';
-  const [field, direction] = sortBy.split('-');
-  const modifier = direction === 'asc' ? 1 : -1;
+  // const sortBy = searchParams.get('sortBy') || 'startDate-asc';
+  // const [field, direction] = sortBy.split('-');
+  // const modifier = direction === 'asc' ? 1 : -1;
 
   // This one is better!
   // .sort((a, b) => a[field].localeCompare(b[field]) * modifier);
 
-  const sortedCabins = filteredCabins.sort(
-    (a, b) => (a[field] - b[field]) * modifier
-  );
+  // const sortedCabins = filteredCabins.sort(
+  //   (a, b) => (a[field] - b[field]) * modifier
+  // );
 
   return (
-    <Menus>
-      {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
-      <Table columns='9.6rem 0.8fr 2fr 1fr 1fr 3.2rem'>
-        <Table.Header>
-          <div></div>
-          <div>Cabin</div>
-          <div>Capacity</div>
-          <div>Price</div>
-          <div>Discount</div>
-          <div></div>
-        </Table.Header>
+    <Table role="table">
+      <TableHeader role="row">
+        <div></div>
+        <div>Cabin</div>
+        <div>Capacity</div>
+        <div>Price</div>
+        <div>Discount</div>
+        <div></div>
+      </TableHeader>
+      {cabins.map((cabin) => (
+        <CabinRow cabin={cabin} key={cabin.id} />
+      ))}
+    </Table>
+    // <Menus>
+    // {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
+    // <Table columns='9.6rem 0.8fr 2fr 1fr 1fr 3.2rem'>
+    //   <Table.Header>
+    //     <div></div>
+    //     <div>Cabin</div>
+    //     <div>Capacity</div>
+    //     <div>Price</div>
+    //     <div>Discount</div>
+    //     <div></div>
+    //   </Table.Header>
 
-        {/* {cabins.map((cabin) => (
-            <CabinRow key={cabin.id} cabin={cabin} />
-          ))} */}
-
-        {/* Render props! */}
-        <Table.Body
-          data={sortedCabins}
-          render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
-        />
-      </Table>
-    </Menus>
+    // {/* Render props! */}
+    //     <Table.Body
+    //       data={sortedCabins}
+    //       render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
+    //     />
+    //   </Table>
+    // </Menus>
   );
 }
 

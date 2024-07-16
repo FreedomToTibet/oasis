@@ -20,8 +20,4 @@ const Row = styled.div.attrs((props) => ({
     `}
 `;
 
-// Row.defaultProps = {
-//   type: "vertical",
-// };
-
 export default Row;

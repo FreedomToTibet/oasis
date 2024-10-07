@@ -7,6 +7,9 @@ import styled from 'styled-components';
 // import Table from 'ui/Table';
 
 import { formatCurrency} from '../../utils/helpers';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { id } from 'date-fns/locale';
+import { deleteCabin } from '../../services/apiCabins';
 // import { useDeleteCabin } from './useDeleteCabin';
 // import { useCreateCabin } from './useCreateCabin';
 // import CreateCabinForm from './CreateCabinForm';
@@ -63,6 +66,13 @@ function CabinRow({ cabin }) {
     description,
   } = cabin;
 
+	const queryClient = useQueryClient();
+	const {isLoading: isDeleting, mutate} = useMutation({
+		mutationFn: deleteCabin, 
+		onSuccess: () => queryClient.invalidateQueries('cabins'),
+		onError: (error) => console.error(error),
+	});
+
   // const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();
   // const { mutate: createCabin } = useCreateCabin();
 
@@ -79,7 +89,7 @@ function CabinRow({ cabin }) {
 
   return (
 		<TableRow role='row'>
-			<Img src={image} alt={`Cabin ${name}`} />
+			<Img src={image} alt={`${nameCabin}`} />
 			<Cabin>{nameCabin}</Cabin>
 			<div>Fits up to {maxCapacity} guests</div>
 			<Price>{formatCurrency(regularPrice)}</Price>
@@ -88,22 +98,10 @@ function CabinRow({ cabin }) {
 			) : (
 				<span>&mdash;</span>
 			)}
+			<button onClick={() => mutate(cabinId)} disabled={isDeleting} >Delete</button>
 		</TableRow>
 		
     // <Table.Row role='row'>
-    //   <Img src={image} alt={`Cabin ${name}`} />
-
-    //   <Cabin>{name}</Cabin>
-
-    //   <div>Fits up to {maxCapacity} guests</div>
-
-    //   <Price>{formatCurrency(regularPrice)}</Price>
-
-    //   {discount ? (
-    //     <Discount>{formatCurrency(discount)}</Discount>
-    //   ) : (
-    //     <span>&mdash;</span>
-    //   )}
 
     //   <Modal>
     //     <Menus.Menu>

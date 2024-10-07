@@ -17,9 +17,10 @@ import AppLayout from "./ui/AppLayout";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			staleTime: 1000 * 60 * 5,
-			retry: false,
-			refetchOnWindowFocus: false,
+			staleTime: 1000 * 30,
+			// staleTime: 1000 * 60,
+			// retry: false,
+			// refetchOnWindowFocus: false,
 		},
 	},
 });

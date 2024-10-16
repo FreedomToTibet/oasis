@@ -10,6 +10,7 @@ import { formatCurrency} from '../../utils/helpers';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { id } from 'date-fns/locale';
 import { deleteCabin } from '../../services/apiCabins';
+import toast from 'react-hot-toast';
 // import { useDeleteCabin } from './useDeleteCabin';
 // import { useCreateCabin } from './useCreateCabin';
 // import CreateCabinForm from './CreateCabinForm';
@@ -69,8 +70,13 @@ function CabinRow({ cabin }) {
 	const queryClient = useQueryClient();
 	const {isLoading: isDeleting, mutate} = useMutation({
 		mutationFn: deleteCabin, 
-		onSuccess: () => queryClient.invalidateQueries('cabins'),
-		onError: (error) => console.error(error),
+		onSuccess: () => {
+			toast.success('Cabin deleted');
+			queryClient.invalidateQueries({
+				queryKey: ['cabins'],
+			})
+		},
+		onError: (error) => toast.error(error),
 	});
 
   // const { mutate: deleteCabin, isLoading: isDeleting } = useDeleteCabin();

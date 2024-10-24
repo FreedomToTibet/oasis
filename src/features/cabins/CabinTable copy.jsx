@@ -1,10 +1,12 @@
+import {useQuery} from '@tanstack/react-query';
 import styled from 'styled-components';
+import {getCabins} from '../../services/apiCabins';
 import CabinRow from './CabinRow';
 import Spinner from '../../ui/Spinner';
-import { useCabins } from './useCabins';
 // import Table from 'ui/Table';
 // import Menus from 'ui/Menus';
 // import Empty from 'ui/Empty';
+// import { useCabins } from 'features/cabins/useCabins';
 // import { useSearchParams } from 'react-router-dom';
 // import { Suspense } from 'react';
 
@@ -41,7 +43,14 @@ function CabinTable() {
 
   // Now, everything that's inside a Suspense will be treated as just one unit, so when just one component of the child components is currently suspended, all of them will be replaced with the fallback. We can nest multiple Suspense boundaries, and the closest one will be shown. This way, when we have a big Suspense on the top on the tree, it won't have to WAIT
 
-  const { isLoading, cabins, error} = useCabins();
+  const {
+    isLoading,
+    data: cabins,
+    error,
+  } = useQuery({
+    queryKey: ['cabins'],
+    queryFn: getCabins,
+  });
 
   if (isLoading) return <Spinner />;
 

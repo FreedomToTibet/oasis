@@ -51,7 +51,7 @@ export async function getCabinById(id) {
 export async function createOrEditCabin(cabin, id) {
   const isHasImage =
     typeof cabin.image === 'string' && cabin.image.startsWith(supabaseUrl);
-  // const imagePath = `${supabaseUrl}/storage/v1/object/public/cabins/${cabin.image[0].name}`;
+  
   const imagePath = isHasImage
     ? cabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabins/${cabin.image.name}`;

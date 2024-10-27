@@ -7,7 +7,7 @@ import Button from "../ui/Button";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 // import { getCabins } from "../services/apiCabins";
 
-function Cabins() {
+const Cabins = () => {
 	const [showForm, setShowForm] = useState(false);
 	// const [cabins, setCabins] = useState([]);
 	// useEffect(() => {

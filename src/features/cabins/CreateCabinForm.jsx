@@ -29,14 +29,6 @@ import {Textarea} from '../../ui/Textarea';
 //   const onSubmit = function (data) {
 //     // No need to validate here, because it's already been done. This is REALLY nice!
 
-//     const options = {
-//       onSuccess: (data) => {
-//         // If this component is used OUTSIDE the Modal Context, this will return undefined, so we need to test for this
-//         closeModal?.();
-//         reset();
-//       },
-//     };
-
 //   };
 
 //   // By default, validation happens the moment we submit the form, so when we call handleSubmit. From them on, validation happens on the onChange event [demonstrate]. We cah change that by passing options into useForm ('mode' and 'reValidateMode')
@@ -46,36 +38,6 @@ import {Textarea} from '../../ui/Textarea';
 //   // "handleSubmit" will validate your inputs before invoking "onSubmit"
 
 //   return (
-//     <Form onSubmit={handleSubmit(onSubmit, onError)} type='modal'>
-//         <Input
-
-//           id='name'
-//         />
-//       </FormRow>
-
-//         <Input
-
-//           id='maxCapacity'
-//         />
-//       </FormRow>
-
-//         <Input
-
-//           id='regularPrice'
-//         />
-//       </FormRow>
-
-//         <Input
-
-//           id='discount'
-//         />
-//       </FormRow>
-
-//         <Textarea
-
-//           id='description'
-//         />
-//       </FormRow>
 
 //         <FileInput
 //           id='image'
@@ -92,20 +54,13 @@ import {Textarea} from '../../ui/Textarea';
 //       </FormRow>
 
 //       <FormRow>
-//         {/* type is an HTML attribute! */}
-//         <Button
-//           onClick={() => closeModal?.()}
-//         >
-//           Cancel
-//         </Button>
 
-//         </Button>
 //       </FormRow>
 //     </Form>
 //   );
 // }
 
-const CreateCabinForm = ({cabinToEdit = {}}) => {
+const CreateCabinForm = ({cabinToEdit = {}, onCloseModal}) => {
   const {isCreating, createCabin, } = useCreateCabin();
   const {isEditing, editCabin} = useEditCabin();
 
@@ -122,6 +77,7 @@ const CreateCabinForm = ({cabinToEdit = {}}) => {
   // options for function where the mutation happens, we do it here because of custom hook (doesn't contain useForm)
   const options = {
     onSuccess: (data) => {
+			onCloseModal?.()
       reset();
     },
     onError: (error) => {
@@ -170,7 +126,7 @@ const CreateCabinForm = ({cabinToEdit = {}}) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type="modal">
       <FormRow label="Cabin name" error={errors?.nameCabin?.message}>
         <Input
           type="text"
@@ -245,7 +201,7 @@ const CreateCabinForm = ({cabinToEdit = {}}) => {
         />
       </FormRow>
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onCloseModal?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>

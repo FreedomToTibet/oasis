@@ -172,7 +172,7 @@ const CreateCabinForm = ({cabinToEdit = {}, onCloseModal}) => {
           {...register('discount', {
             required: "Can't be empty, make it at least 0",
             validate: (value) =>
-              getValues().regularPrice > value ||
+              getValues().regularPrice < value ||
               'Discount should be less than regular price',
           })}
         />

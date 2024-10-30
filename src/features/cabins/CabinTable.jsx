@@ -3,7 +3,7 @@ import CabinRow from './CabinRow';
 import Spinner from '../../ui/Spinner';
 import {useCabins} from './useCabins';
 import Table from '../../ui/Table';
-// import Menus from 'ui/Menus';
+import Menus from '../../ui/Menus';
 // import Empty from 'ui/Empty';
 // import { useSearchParams } from 'react-router-dom';
 // import { Suspense } from 'react';
@@ -65,39 +65,22 @@ function CabinTable() {
   // );
 
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Header>
-        <div></div>
-        <div>Cabin</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
-        <div></div>
-      </Table.Header>
-      <Table.Body
-        data={cabins}
-        render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
-      />
-    </Table>
-    // <Menus>
-    // {/* A beautiful API we created here! We could even have defined the widths on the columns in the table header individually, but this keeps it simpler, and I also really like it */}
-    // <Table columns='9.6rem 0.8fr 2fr 1fr 1fr 3.2rem'>
-    //   <Table.Header>
-    //     <div></div>
-    //     <div>Cabin</div>
-    //     <div>Capacity</div>
-    //     <div>Price</div>
-    //     <div>Discount</div>
-    //     <div></div>
-    //   </Table.Header>
-
-    // {/* Render props! */}
-    //     <Table.Body
-    //       data={sortedCabins}
-    //       render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
-    //     />
-    //   </Table>
-    // </Menus>
+    <Menus>
+      <Table columns="0.6fr 1.5fr 2.2fr 1fr 1fr 0.4fr">
+        <Table.Header>
+          <div></div>
+          <div>Cabin</div>
+          <div>Capacity</div>
+          <div>Price</div>
+          <div>Discount</div>
+          <div></div>
+        </Table.Header>
+        <Table.Body
+          data={cabins}
+          render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+        />
+      </Table>
+    </Menus>
   );
 }
 

@@ -29,17 +29,36 @@ const CabinTable = () => {
 		return true; // Handles 'all' and any other cases
 	});
 
-  // 2) SortBy
-  // const sortBy = searchParams.get('sortBy') || 'startDate-asc';
-  // const [field, direction] = sortBy.split('-');
-  // const modifier = direction === 'asc' ? 1 : -1;
+  // SortBy
+  const sortBy = searchParams.get('sortBy') || 'nameCabin-asc';
+	
+  const [field, direction] = sortBy.split('-');
+	
+  const modifier = direction === 'asc' ? 1 : -1;
+	
 
-  // This one is better!
-  // .sort((a, b) => a[field].localeCompare(b[field]) * modifier);
-
-  // const sortedCabins = filteredCabins.sort(
-  //   (a, b) => (a[field] - b[field]) * modifier
-  // );
+  const sortedCabins = filteredCabins.sort((a, b) => {
+		const aValue = a[field];
+		const bValue = b[field];
+	
+		// Handle undefined or null values
+		if (aValue == null && bValue == null) return 0;
+		if (aValue == null) return -1 * modifier;
+		if (bValue == null) return 1 * modifier;
+	
+		// Check if values are both strings
+		if (typeof aValue === 'string' && typeof bValue === 'string') {
+			return aValue.localeCompare(bValue) * modifier;
+		}
+	
+		// For numbers
+		if (typeof aValue === 'number' && typeof bValue === 'number') {
+			return (aValue - bValue) * modifier;
+		}
+	
+		// If types are different, convert to strings and compare
+		return String(aValue).localeCompare(String(bValue)) * modifier;
+	});
 
   return (
     <Menus>
@@ -53,7 +72,7 @@ const CabinTable = () => {
           <div></div>
         </Table.Header>
         <Table.Body
-          data={filteredCabins}
+          data={sortedCabins}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>

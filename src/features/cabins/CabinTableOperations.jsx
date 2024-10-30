@@ -1,4 +1,4 @@
-// import SortBy from '../../ui/SortBy';
+import SortBy from '../../ui/SortBy';
 import Filter from '../../ui/Filter';
 import TableOperations from '../../ui/TableOperations';
 
@@ -14,10 +14,10 @@ const CabinTableOperations = () => {
         ]}
       />
 
-      {/* <SortBy
+      <SortBy
         options={[
-          { value: 'name-asc', label: 'Sort by name (A-Z)' },
-          { value: 'name-desc', label: 'Sort by name (Z-A)' },
+          { value: 'nameCabin-asc', label: 'Sort by name (A-Z)' },
+          { value: 'nameCabin-desc', label: 'Sort by name (Z-A)' },
           { value: 'regularPrice-asc', label: 'Sort by price (low first)' },
           {
             value: 'regularPrice-desc',
@@ -29,7 +29,7 @@ const CabinTableOperations = () => {
             label: 'Sort by capacity (high first)',
           },
         ]}
-      /> */}
+      />
     </TableOperations>
   );
 }

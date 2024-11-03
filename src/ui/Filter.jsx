@@ -39,10 +39,10 @@ const Filter = ({filterField, options}) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	// Set default filter value to 'all' if not present in URL
-  const filterValue = searchParams.get(filterField) || 'all';
+  const filterValue = searchParams.get(filterField) || options.at(0).value;
 
 	const handleClick = (value) => {
-		searchParams.set("discount", value);
+		searchParams.set(filterField, value);
 		setSearchParams(searchParams);
 	}
 

@@ -18,7 +18,7 @@ export async function getBooking(id) {
 }
 
 // Returns all BOOKINGS
-export async function getBookings() {
+export async function getBookings({ filter }) {
   let query = supabase
     .from("bookings")
     .select(
@@ -27,7 +27,7 @@ export async function getBookings() {
     );
 
   // FILTER
-  // if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
+  if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
 
   // SORT
   // if (sortBy)

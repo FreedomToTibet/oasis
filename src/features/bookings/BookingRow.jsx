@@ -123,7 +123,7 @@ const BookingRow = ({
             {status === 'checked-in' && (
               <Menus.Button
                 onClick={() => checkout(bookingId)}
-                disabled={isCheckingOut}
+                // disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
               >
                 Check out

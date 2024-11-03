@@ -6,7 +6,7 @@ import {useCabins} from './useCabins';
 import Spinner from '../../ui/Spinner';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
-// import Empty from '../../ui/Empty';
+import Empty from '../../ui/Empty';
 
 // import { Suspense } from 'react';
 
@@ -17,8 +17,7 @@ const CabinTable = () => {
 
   if (isLoading) return <Spinner />;
 
-
-  // if (!cabins) return <Empty resource={'cabins'} />;
+	if (!cabins.length) return <Empty resourceName={'cabins'} />;
 
   // Filter
   const filterValue = searchParams.get('discount') || 'all';

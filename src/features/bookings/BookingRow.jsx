@@ -50,11 +50,11 @@ const Amount = styled.div`
 const BookingRow = ({
   booking: {
     id: bookingId,
-    // created_at,
+    created_at,
     startDate,
     endDate,
     amountNights,
-    // numberGuests,
+    numberGuests,
     totalPrice,
     status,
     guests: { fullName: guestName, email },
@@ -108,7 +108,7 @@ const BookingRow = ({
               onClick={() => navigate(`/bookings/${bookingId}`)}
               icon={<HiEye />}
             >
-              See details
+              Details
             </Menus.Button>
 
             {status === 'unconfirmed' && (
@@ -120,7 +120,7 @@ const BookingRow = ({
               </Menus.Button>
             )}
 
-            {status === 'checked-in' && (
+            {/* {status === 'checked-in' && (
               <Menus.Button
                 onClick={() => checkout(bookingId)}
                 // disabled={isCheckingOut}
@@ -128,15 +128,15 @@ const BookingRow = ({
               >
                 Check out
               </Menus.Button>
-            )}
+            )} */}
 
-            <Menus.Button icon={<HiPencil />}>Edit booking</Menus.Button>
+            {/* <Menus.Button icon={<HiPencil />}>Edit booking</Menus.Button> */}
             {/* <Menus.Button>Delete</Menus.Button> */}
 
             {/* Now it gets a bit confusing... */}
-            <Modal.Toggle opens='delete'>
+            {/* <Modal.Toggle opens='delete'>
               <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
-            </Modal.Toggle>
+            </Modal.Toggle> */}
           </Menus.List>
         </Menus.Menu>
 

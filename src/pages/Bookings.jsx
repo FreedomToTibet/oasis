@@ -3,7 +3,7 @@ import Row from "../ui/Row";
 import BookingTable from "../features/bookings/BookingTable";
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 
-function Bookings() {
+const Bookings = () => {
   return (
 		<>
 		 <Row type="horizontal">

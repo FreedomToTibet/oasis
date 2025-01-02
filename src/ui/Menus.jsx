@@ -46,7 +46,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledButton = styled.button`
-  width: 100%;
+  width: 120%;
   text-align: left;
   background: none;
   border: none;

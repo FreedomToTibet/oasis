@@ -1,21 +1,23 @@
 import styled from 'styled-components';
 import { format } from 'date-fns';
 
-import { box } from 'styles/styles';
-import { formatDistanceFromNow } from 'utils/helpers';
-import { isToday } from 'date-fns/esm';
-import { formatCurrency } from 'utils/helpers';
+import { formatDistanceFromNow, formatCurrency } from '../../utils/helpers';
+import { isToday } from 'date-fns';
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
   HiOutlineCurrencyDollar,
   HiOutlineHomeModern,
 } from 'react-icons/hi2';
-import DataItem from 'ui/DataItem';
-import { Flag } from 'ui/Flag';
+import DataItem from '../../ui/DataItem';
+import { Flag } from '../../ui/Flag';
 
 const StyledBookingDataBox = styled.section`
-  ${box} /* padding: 3.2rem 4rem; */
+  /* Box */
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+
   overflow: hidden;
 `;
 
@@ -115,7 +117,7 @@ function BookingDataBox({ booking }) {
     observations,
     isPaid,
     guests: { fullName: guestName, email, citizenship, countryFlag, citizenshipID },
-    cabins: { name: cabinName },
+    cabins: { name: nameCabin },
   } = booking;
 
   return (
@@ -124,7 +126,7 @@ function BookingDataBox({ booking }) {
         <div>
           <HiOutlineHomeModern />
           <p>
-            {amountNights} nights in Cabin <span>{cabinName}</span>
+            {amountNights} nights in Cabin <span>{nameCabin}</span>
           </p>
         </div>
 
@@ -139,14 +141,14 @@ function BookingDataBox({ booking }) {
 
       <Section>
         <Guest>
-          {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
+          {countryFlag && <Flag src={countryFlag} alt={`Flag of ${citizenship}`} />}
           <p>
             {guestName} {numberGuests > 1 ? `+ ${numberGuests - 1} guests` : ''}
           </p>
           <span>&bull;</span>
           <p>{email}</p>
           <span>&bull;</span>
-          <p>National ID {nationalID}</p>
+          <p>Citizenship ID {citizenshipID}</p>
         </Guest>
 
         {observations && (

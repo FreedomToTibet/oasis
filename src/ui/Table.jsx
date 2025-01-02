@@ -80,7 +80,6 @@ const Row = ({ children }) => {
 	return <StyledRow role="row" columns={columns} >{children}</StyledRow>;
 };
 const Body = ({ data, render }) => {
-	console.log("body", data);
 	return <StyledBody role="rowgroup">{data?.map(render) || <Empty>No data</Empty>}</StyledBody>;
 };
 

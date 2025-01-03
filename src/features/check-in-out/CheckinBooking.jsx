@@ -77,7 +77,6 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
-      {/* LATER */}
       {!hasBreakfast && (
         <Box>
           <Checkbox

@@ -17,7 +17,7 @@ import Table from '../../ui/Table';
 // import { useDeleteBooking } from 'features/bookings/useDeleteBooking';
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
-// import { useCheckout } from 'features/check-in-out/useCheckout';
+import { useCheckout } from '../check-in-out/useCheckout';
 import { format, isToday } from 'date-fns';
 
 const Cabin = styled.div`
@@ -62,7 +62,7 @@ const BookingRow = ({
   },
 }) => {
   // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
-  // const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { checkout, isCheckingOut } = useCheckout();
 
   const navigate = useNavigate();
 
@@ -120,15 +120,15 @@ const BookingRow = ({
               </Menus.Button>
             )}
 
-            {/* {status === 'checked-in' && (
+            {status === 'checked-in' && (
               <Menus.Button
                 onClick={() => checkout(bookingId)}
-                // disabled={isCheckingOut}
+                disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
               >
                 Check out
               </Menus.Button>
-            )} */}
+            )}
 
             {/* <Menus.Button icon={<HiPencil />}>Edit booking</Menus.Button> */}
             {/* <Menus.Button>Delete</Menus.Button> */}

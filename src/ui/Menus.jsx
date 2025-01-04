@@ -50,13 +50,13 @@ const StyledButton = styled.button`
   text-align: left;
   background: none;
   border: none;
-  padding: 1.2rem 2.4rem;
+  padding: 1.2rem 3.4rem 1.2rem 1.2rem;
   font-size: 1.4rem;
   transition: all 0.2s;
 
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  gap: 1rem;
 
   &:hover {
     background-color: var(--color-grey-50);

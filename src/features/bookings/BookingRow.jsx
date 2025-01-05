@@ -14,7 +14,7 @@ import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import Table from '../../ui/Table';
 
-// import { useDeleteBooking } from 'features/bookings/useDeleteBooking';
+import { useDeleteBooking } from './useDeleteBooking';
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
 import { useCheckout } from '../check-in-out/useCheckout';
@@ -61,12 +61,10 @@ const BookingRow = ({
     cabins: { nameCabin: cabinName },
   },
 }) => {
-  // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
   const { checkout, isCheckingOut } = useCheckout();
 
   const navigate = useNavigate();
-
-  // We will not allow editing at this point, as it's too complex for bookings... People just need to delete a booking and create a new one
 
   const statusToTagName = {
     'unconfirmed': 'blue',
@@ -122,13 +120,21 @@ const BookingRow = ({
 
             {status === 'checked-in' && (
               <Menus.Button
-                onClick={() => checkout(bookingId)}
+                onClick={() => {
+									if (window.confirm("Are you sure that you want to check out the guest?")) {
+										checkout(bookingId);
+									}
+								}}
                 disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
               >
                 Check out
               </Menus.Button>
             )}
+
+						<Modal.Open opens='delete'>
+							<Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+						</Modal.Open>
 
             {/* <Menus.Button icon={<HiPencil />}>Edit booking</Menus.Button> */}
             {/* <Menus.Button>Delete</Menus.Button> */}
@@ -140,13 +146,11 @@ const BookingRow = ({
           </Menus.List>
         </Menus.Menu>
 
-        {/* This needs to be OUTSIDE of the menu, which in no problem. The compound component gives us this flexibility */}
         <Modal.Window name='delete'>
           <ConfirmDelete
             resource='booking'
-            // These options will be passed wherever the function gets called, and they determine what happens next
-            onConfirm={(options) => deleteBooking(bookingId, options)}
-            // disabled={isDeleting}
+            onConfirm={() => deleteBooking(bookingId)}
+            disabled={isDeleting}
           />
         </Modal.Window>
       </Modal>

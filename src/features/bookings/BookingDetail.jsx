@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import BookingDataBox from './BookingDataBox';
 import { useBooking } from './useBooking';
-// import { useDeleteBooking } from './useDeleteBooking';
+import { useDeleteBooking } from './useDeleteBooking';
 import { useMoveBack } from '../../hooks/useMoveBack';
 import { useCheckout } from '../check-in-out/useCheckout';
 
@@ -26,7 +26,7 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
-  // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
   const { checkout, isCheckingOut } = useCheckout();
 
   const moveBack = useMoveBack();
@@ -64,24 +64,29 @@ function BookingDetail() {
         )}
 
         {status === 'checked-in' && (
-          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
+          <Button onClick={() => {
+							if (window.confirm("Are you sure that you want to check out the guest?")) {
+								checkout(bookingId);
+							}
+						}} 
+						disabled={isCheckingOut}
+					>
             Check out
           </Button>
         )}
 
-        {/* <Modal>
-          <Modal.Toggle opens='delete'>
+        <Modal>
+          <Modal.Open opens='delete'>
             <Button variation='danger'>Delete booking</Button>
-          </Modal.Toggle>
+          </Modal.Open>
           <Modal.Window name='delete'>
             <ConfirmDelete
               resource='booking'
-              // These options will be passed wherever the function gets called, and they determine what happens next
-              onConfirm={(options) => deleteBooking(bookingId, options)}
-              // disabled={isDeleting}
+              onConfirm={() => deleteBooking(bookingId)}
+              disabled={isDeleting}
             />
           </Modal.Window>
-        </Modal> */}
+        </Modal>
 
         <Button variation='secondary' onClick={moveBack}>
           Back

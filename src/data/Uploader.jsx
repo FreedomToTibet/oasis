@@ -136,7 +136,7 @@ export function Uploader() {
     >
       <h3>DEV AREA</h3>
 
-      <Button
+      {/* <Button
         onClick={uploadAll}
         // To prevent accidental clicks. Remove to run once!
         disabled={isLoading}
@@ -144,12 +144,12 @@ export function Uploader() {
       >
         Upload ALL sample data
       </Button>
-      <p>Only run this only once!</p>
-      <hr />
+      <p>Run this only ONCE!</p>
+      <hr /> */}
       <Button onClick={uploadBookings} disabled={isLoading}>
         Upload CURRENT bookings
       </Button>
-      <p>You can run this every day you develop the app</p>
+      {/* <p>You can run this every day you develop the app</p> */}
     </div>
   );
 }

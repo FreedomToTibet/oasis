@@ -16,9 +16,6 @@ const BookingTable = () => {
 
   if (!bookings || !bookings.length) return <Empty resourceName="bookings" />;
 
-  // VIDEO stupid JS bug, just an example of course
-  // null.toUpperCase();
-
   return (
     <Menus>
       <Table columns='0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem'>

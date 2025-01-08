@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 
 import BookingDataBox from './BookingDataBox';
-import { useBooking } from './useBooking';
-import { useDeleteBooking } from './useDeleteBooking';
-import { useMoveBack } from '../../hooks/useMoveBack';
-import { useCheckout } from '../check-in-out/useCheckout';
+import {useBooking} from './useBooking';
+import {useDeleteBooking} from './useDeleteBooking';
+import {useMoveBack} from '../../hooks/useMoveBack';
+import {useCheckout} from '../check-in-out/useCheckout';
 
 import ButtonText from '../../ui/ButtonText';
 import Row from '../../ui/Row';
@@ -15,6 +15,7 @@ import ButtonGroup from '../../ui/ButtonGroup';
 import Button from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
+import ConfirmCheckout from '../../ui/ConfirmCheckout';
 import Spinner from '../../ui/Spinner';
 import Empty from '../../ui/Empty';
 
@@ -25,17 +26,17 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { booking, isLoading } = useBooking();
-  const { deleteBooking, isDeleting } = useDeleteBooking();
-  const { checkout, isCheckingOut } = useCheckout();
+  const {booking, isLoading} = useBooking();
+  const {deleteBooking, isDeleting} = useDeleteBooking();
+  const {checkout, isCheckingOut} = useCheckout();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
   if (isLoading) return <Spinner />;
-  if (!booking) return <Empty resource='booking' />;
+  if (!booking) return <Empty resource="booking" />;
 
-	const {id: bookingId, status } = booking;
+  const {id: bookingId, status} = booking;
 
   const statusToTagName = {
     unconfirmed: 'blue',
@@ -46,9 +47,9 @@ function BookingDetail() {
   // We return a fragment so that these elements fit into the page's layout
   return (
     <>
-      <Row type='horizontal'>
+      <Row type="horizontal">
         <HeadingGroup>
-          <Heading type='h1'>Booking #{bookingId}</Heading>
+          <Heading type="h1">Booking #{bookingId}</Heading>
           <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
@@ -58,37 +59,36 @@ function BookingDetail() {
 
       <ButtonGroup>
         {status === 'unconfirmed' && (
-          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
-            Check in
-          </Button>
-        )}
-
-        {status === 'checked-in' && (
-          <Button onClick={() => {
-							if (window.confirm("Are you sure that you want to check out the guest?")) {
-								checkout(bookingId);
-							}
-						}} 
-						disabled={isCheckingOut}
-					>
-            Check out
-          </Button>
+          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>Check in</Button>
         )}
 
         <Modal>
-          <Modal.Open opens='delete'>
-            <Button variation='danger'>Delete booking</Button>
+          {status === 'checked-in' && (
+            <Modal.Open opens="checkout">
+              <Button variation="primary">Check out</Button>
+            </Modal.Open>
+          )}
+					<Modal.Window name="checkout">
+						<ConfirmCheckout
+							booking={booking}
+							onConfirm={() => checkout(bookingId)}
+							disabled={isCheckingOut}
+						/>
+					</Modal.Window>
+					
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete booking</Button>
           </Modal.Open>
-          <Modal.Window name='delete'>
+          <Modal.Window name="delete">
             <ConfirmDelete
-              resource='booking'
+              resource="booking"
               onConfirm={() => deleteBooking(bookingId)}
               disabled={isDeleting}
             />
           </Modal.Window>
         </Modal>
 
-        <Button variation='secondary' onClick={moveBack}>
+        <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>

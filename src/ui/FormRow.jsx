@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
+	position: relative;
 
   grid-template-columns: ${(props) =>
     props.orientation === "vertical" ? "1fr" : "24rem 1fr 1.2fr"};
@@ -29,7 +30,7 @@ const StyledFormRow = styled.div`
   ${(props) =>
     props.orientation !== "vertical" &&
     css`
-      &:has(button) {
+      &:has(button:not(.eye-icon)) {
         display: flex;
         justify-content: flex-end;
         gap: 1.2rem;

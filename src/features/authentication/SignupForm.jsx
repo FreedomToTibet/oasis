@@ -37,8 +37,7 @@ const SignupForm = () => {
   const {signup, isLoading} = useSignup();
   const {register, formState, getValues, handleSubmit, reset} = useForm();
   const {errors} = formState;
-  // const [showPassword, setShowPassword] = useState(false);
-  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+ 
 	const [passwordVisibility, setPasswordVisibility] = useState({
 		password: false,
 		confirmPassword: false

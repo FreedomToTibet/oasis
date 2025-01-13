@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+
+import LightDarkSwitch from "./LightDarkSwitch";
 import Logout from "../features/authentication/Logout";
 import { HiOutlineUser } from "react-icons/hi2";
 
 import ButtonIcon from "./ButtonIcon";
-// import DarkModeToggle from "./DarkModeToggle";
+
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -21,6 +23,9 @@ const HeaderMenu = () => {
           <HiOutlineUser />
         </ButtonIcon>
       </li>
+			<li>
+				<LightDarkSwitch />
+			</li>
 			<li>
         <Logout />
       </li>

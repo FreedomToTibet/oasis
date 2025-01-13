@@ -9,6 +9,7 @@ export const useLogout = () => {
 	const { mutate: logout, isLoading } = useMutation({
 		mutationFn: logoutApi,
 		onSuccess: () => {
+			document.documentElement.className = 'light-mode';
 			queryClient.removeQueries();
 			navigate("/login", { replace: true });
 		},

@@ -13,6 +13,9 @@ const useLogin = () => {
 
 		onSuccess: (user) => {
 			queryClient.setQueryData(["user"], user.user);
+		
+			document.documentElement.className = `${user.user.user_metadata.theme}-mode`;
+			
 			navigate('/dashboard', { replace: true });
 		},
 

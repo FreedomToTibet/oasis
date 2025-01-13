@@ -3,11 +3,11 @@ import supabase, {supabaseUrl} from "./supabase";
 export const login = async ({ email, password }) => {
 	const { data, error } = await supabase.auth.signInWithPassword({ 
 		email, 
-		password 
+		password, 
 	});
 
 	if (error) throw new Error(error.message);
-
+	console.log(data);
 	return data;
 }
 
@@ -34,6 +34,7 @@ export const signup = async ({ fullName, email, password }) => {
       data: {
         fullName,
         avatar: "",
+				theme: "light",
       },
     },
   });
@@ -43,16 +44,24 @@ export const signup = async ({ fullName, email, password }) => {
 	return data;
 }
 
-export const updateCurrentUser = async ({ password, fullName, avatar }) => {
+export const updateCurrentUser = async ({ password, fullName, avatar, theme }) => {
 	// 1. Update password OR fullName
 	let updateData;
+
 	if (password) updateData = { password };
 	if (fullName) updateData = { data: { fullName } };
+	if (theme !== undefined) updateData = { data: {theme} };
+	console.log("theme apiAuth", theme);
 
-	const { data, error } = await supabase.auth.updateUser(updateData);
+	try {
+		const { data, error } = await supabase.auth.updateUser(updateData);
 
 	if (error) throw new Error(error.message);
 	if (!avatar) return data;
+	} catch (error) {
+		console.error("Error updating user:", error);
+    throw new Error(error.message);
+	}
 
 	// 2. Upload the avatar image
 	const fileName = `avatar-${data.user.id}`;

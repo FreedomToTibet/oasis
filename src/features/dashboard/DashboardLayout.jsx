@@ -1,13 +1,16 @@
 import styled from 'styled-components';
+import useRecentStays from './useRecentStays';
+import useRecentBookings from './useRecentBookings';
+// import { useCabins } from 'features/cabins/useCabins';
 
-import DurationChart from 'features/dashboard/DurationChart';
-import SalesChart from 'features/dashboard/SalesChart';
-import Stats from 'features/dashboard/Stats';
-import TodayActivity from 'features/check-in-out/TodayActivity';
-import { useRecentBookings } from 'features/dashboard/useRecentBookings';
-import Spinner from 'ui/Spinner';
-import { useRecentStays } from './useRecentStays';
-import { useCabins } from 'features/cabins/useCabins';
+// import DurationChart from 'features/dashboard/DurationChart';
+// import SalesChart from 'features/dashboard/SalesChart';
+// import Stats from 'features/dashboard/Stats';
+// import TodayActivity from 'features/check-in-out/TodayActivity';
+
+import Spinner from '../../ui/Spinner';
+
+
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -22,16 +25,24 @@ We need to distinguish between two types of data here:
 2) STAYS: the actual check-in of guests arriving for their bookings. We can identify stays by their startDate, together with a status of either 'checked-in' (for current stays) or 'checked-out' (for past stays)
 */
 
-function DashboardLayout() {
-  const { isLoading: isLoading1, bookings, numDays } = useRecentBookings();
-  const { isLoading: isLoading2, confirmedStays } = useRecentStays();
-  const { isLoading: isLoading3, cabins } = useCabins();
+const DashboardLayout = () => {
+	const { isLoading: isLoadingBook, bookings } = useRecentBookings();
+  const { isLoading: isLoadingStay, confirmedStays } = useRecentStays();
+  // const { isLoading: isLoading3, cabins } = useCabins();
 
-  if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+  // if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+	if (isLoadingBook || isLoadingBook) return <Spinner />;
+
+	console.log(bookings);
+	console.log(confirmedStays);
 
   return (
     <StyledDashboardLayout>
-      <Stats
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+      {/* <Stats
         bookings={bookings}
         confirmedStays={confirmedStays}
         numDays={numDays}
@@ -39,7 +50,7 @@ function DashboardLayout() {
       />
       <TodayActivity />
       <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} />
+      <SalesChart bookings={bookings} numDays={numDays} /> */}
     </StyledDashboardLayout>
   );
 }

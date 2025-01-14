@@ -26,7 +26,6 @@ export const ThemeProvider = ({children}) => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     document.documentElement.className = newTheme === 'dark' ? 'dark-mode' : 'light-mode';
-    console.log('toggleTheme and theme', newTheme);
     if (user) {
       updateUser({theme: newTheme});
     }

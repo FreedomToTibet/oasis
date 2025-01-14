@@ -7,7 +7,7 @@ export const login = async ({ email, password }) => {
 	});
 
 	if (error) throw new Error(error.message);
-	console.log(data);
+
 	return data;
 }
 
@@ -51,7 +51,6 @@ export const updateCurrentUser = async ({ password, fullName, avatar, theme }) =
 	if (password) updateData = { password };
 	if (fullName) updateData = { data: { fullName } };
 	if (theme !== undefined) updateData = { data: {theme} };
-	console.log("theme apiAuth", theme);
 
 	try {
 		const { data, error } = await supabase.auth.updateUser(updateData);
@@ -82,4 +81,14 @@ export const updateCurrentUser = async ({ password, fullName, avatar, theme }) =
 	if (updateError) throw new Error(updateError.message);
 
 	return updatedUser;
+}
+
+export const verifyPassword = async ({ email, password }) => {
+	const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+	if (error) return false;
+  return true;
 }

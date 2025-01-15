@@ -25,7 +25,7 @@ function ConfirmCheckout({ resource, onConfirm, disabled, onCloseModal }) {
 
   return (
     <StyledConfirmCheckout>
-      <Heading type="h3">Check out {resource}</Heading>
+      <Heading as="h3">Check out {resource}</Heading>
       <p>
         Are you sure you want to check out this {resource} permanently? This action
         cannot be undone.

@@ -1,4 +1,4 @@
-import { useDarkMode } from 'context/DarkModeContext';
+import styled from 'styled-components';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 import {
   Area,
@@ -9,9 +9,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import styled from 'styled-components';
-import Heading from 'ui/Heading';
+import { useTheme } from '../../context/ThemeContext';
 import DashboardBox from './DashboardBox';
+import Heading from '../../ui/Heading';
+
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -23,9 +24,8 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
-function SalesChart({ bookings, numDays }) {
-  // In the chart we need to set colors, but we can't do it based on CSS variables, because we have no access to them here. So let's set them manually
-  const { isDarkMode } = useDarkMode();
+const SalesChart = ({ bookings, numDays }) => {
+  const { theme } = useTheme();
 
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays - 1),
@@ -44,7 +44,7 @@ function SalesChart({ bookings, numDays }) {
     };
   });
 
-  const colors = isDarkMode
+  const colors = theme === 'dark'
     ? {
         totalSales: { stroke: '#4f46e5', fill: '#4f46e5' },
         extrasSales: { stroke: '#22c55e', fill: '#22c55e' },
@@ -66,7 +66,6 @@ function SalesChart({ bookings, numDays }) {
       </Heading>
 
       <ResponsiveContainer width='100%' height={300}>
-        {/* <AreaChart data={data} width={700} height={300}> */}
         <AreaChart data={data}>
           <XAxis
             dataKey='label'
@@ -83,8 +82,6 @@ function SalesChart({ bookings, numDays }) {
           <Area
             type='monotone'
             dataKey='totalSales'
-            // stroke='#4f46e5'
-            // fill='#c7d2fe'
             stroke={colors.totalSales.stroke}
             fill={colors.totalSales.fill}
             strokeWidth={2}
@@ -94,8 +91,6 @@ function SalesChart({ bookings, numDays }) {
           <Area
             type='monotone'
             dataKey='extrasSales'
-            // stroke='#15803d'
-            // fill='#dcfce7'
             stroke={colors.extrasSales.stroke}
             fill={colors.extrasSales.fill}
             strokeWidth={2}

@@ -4,7 +4,7 @@ import useRecentBookings from './useRecentBookings';
 import { useCabins } from '../cabins/useCabins';
 
 // import DurationChart from 'features/dashboard/DurationChart';
-// import SalesChart from 'features/dashboard/SalesChart';
+import SalesChart from './SalesChart';
 import Stats from './Stats';
 // import TodayActivity from 'features/check-in-out/TodayActivity';
 
@@ -36,11 +36,11 @@ const DashboardLayout = () => {
       />
 			<div>2</div>
 			<div>3</div>
-			<div>4</div>
+			<SalesChart bookings={bookings} numDays={numDays} />
       {/*
       <TodayActivity />
       <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} /> */}
+       */}
     </StyledDashboardLayout>
   );
 }

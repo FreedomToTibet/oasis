@@ -1,9 +1,11 @@
-import CheckoutButton from 'features/check-in-out/CheckoutButton';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from 'ui/Button';
-import { Flag } from 'ui/Flag';
-import Tag from 'ui/Tag';
+import { Link } from 'react-router-dom';
+import CheckoutButton from '../check-in-out/CheckoutButton';
+
+
+import Button from '../../ui/Button';
+import { Flag } from '../../ui/Flag';
+import Tag from '../../ui/Tag';
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -11,7 +13,7 @@ const StyledTodayItem = styled.li`
   gap: 1.2rem;
   align-items: center;
 
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid var(--color-grey-100);
 
@@ -27,8 +29,9 @@ const Guest = styled.div`
   font-weight: 500;
 `;
 
-function TodayItem({ stay }) {
-  const { id, status, guests, numNights } = stay;
+const TodayItem = ({ activity }) => {
+	
+  const { id, status, guests, amountNights } = activity;
 
   const statusToAction = {
     unconfirmed: {
@@ -59,7 +62,7 @@ function TodayItem({ stay }) {
       </Tag>
       <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
       <Guest>{guests.fullName}</Guest>
-      <div>{numNights} nights</div>
+      <div>{amountNights} nights</div>
 
       {statusToAction[status].button}
     </StyledTodayItem>

@@ -30,6 +30,10 @@ const StyledEyeIcon = styled.button`
   font-size: 1.8rem;
   outline: none;
 
+	& svg {
+    outline: none;
+  }
+
   &:hover,
   &:focus {
     color: var(--color-grey-800);
@@ -86,7 +90,7 @@ const UpdatePasswordForm = () => {
             type={passwordVisibility.currentPassword ? 'text' : 'password'}
             id="currentPassword"
             autoComplete="current-password"
-            disabled={isUpdating}
+            disabled={true}
             {...register('currentPassword', {
               required: 'Please enter your current password',
             })}

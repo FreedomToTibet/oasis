@@ -58,7 +58,7 @@ const SignupForm = () => {
         <Input
           type="text"
           id="fullName"
-          disabled={isLoading}
+          disabled={true}
           {...register('fullName', {required: 'This field is required'})}
         />
       </FormRow>
@@ -67,7 +67,7 @@ const SignupForm = () => {
         <Input
           type="email"
           id="email"
-          disabled={isLoading}
+          disabled={true}
           {...register('email', {
             required: 'This field is required',
             pattern: {
